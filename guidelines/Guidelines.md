@@ -1,61 +1,237 @@
-**Add your own guidelines here**
-<!--
+**EDH Project Guidelines**
 
-System Guidelines
+## Projet : Système de Gestion des Pannes et Interventions
 
-Use this file to provide the AI with rules and guidelines you want it to follow.
-This template outlines a few examples of things you can add. You can add your own sections and format it to suit your needs
+**Version 1.0** - Fonctionnalités internes (Admin, Agent, Technicien)  
+**Espace client réservé pour Version 2**
 
-TIP: More context isn't always better. It can confuse the LLM. Try and add the most important rules you need
+---
 
-# General guidelines
+## Règles Générales
 
-Any general rules you want the AI to follow.
-For example:
+### Organisation du Code
 
-* Only use absolute positioning when necessary. Opt for responsive and well structured layouts that use flexbox and grid by default
-* Refactor code as you go to keep code clean
-* Keep file sizes small and put helper functions and components in their own files.
+- **Un composant par fichier** - Garder les fichiers petits et focalisés
+- **Nommage cohérent** :
+  - Composants React : `PascalCase` (ex: `GestionPannes.tsx`)
+  - Hooks : `camelCase` avec prefix `use` (ex: `useNotification.ts`)
+  - Services : `camelCase` (ex: `notificationService.ts`)
+  - Types/Interfaces : `PascalCase` avec suffix (ex: `PanneType`, `UserInterface`)
 
---------------
+### Imports
 
-# Design system guidelines
-Rules for how the AI should make generations look like your company's design system
+- **Toujours utiliser les aliases** configurés dans `tsconfig.json` :
 
-Additionally, if you select a design system to use in the prompt box, you can reference
-your design system's components, tokens, variables and components.
-For example:
+  ```tsx
+  // Correct
+  import { Button } from "@/components/ui/button";
+  import { useNotification } from "@/hooks/useNotification";
 
-* Use a base font-size of 14px
-* Date formats should always be in the format “Jun 10”
-* The bottom toolbar should only ever have a maximum of 4 items
-* Never use the floating action button with the bottom toolbar
-* Chips should always come in sets of 3 or more
-* Don't use a dropdown if there are 2 or fewer options
+  // Incorrect
+  import { Button } from "../../../components/ui/button";
+  ```
 
-You can also create sub sections and add more specific details
-For example:
+### Structure des Fichiers
 
+```bash
+src/
+├── app/
+│   ├── components/     # Composants React
+│   │   └── ui/        # Composants shadcn/ui
+│   ├── contexts/      # Contexts React
+│   ├── hooks/         # Hooks personnalisés
+│   ├── pages/         # Pages de l'application
+│   ├── services/      # Services API
+│   └── routes.tsx     # Configuration routing
+├── imports/           # Images et assets
+└── styles/            # CSS global
+```
 
-## Button
-The Button component is a fundamental interactive element in our design system, designed to trigger actions or navigate
-users through the application. It provides visual feedback and clear affordances to enhance user experience.
+---
 
-### Usage
-Buttons should be used for important actions that users need to take, such as form submissions, confirming choices,
-or initiating processes. They communicate interactivity and should have clear, action-oriented labels.
+## Design System EDH
 
-### Variants
-* Primary Button
-  * Purpose : Used for the main action in a section or page
-  * Visual Style : Bold, filled with the primary brand color
-  * Usage : One primary button per section to guide users toward the most important action
-* Secondary Button
-  * Purpose : Used for alternative or supporting actions
-  * Visual Style : Outlined with the primary color, transparent background
-  * Usage : Can appear alongside a primary button for less important actions
-* Tertiary Button
-  * Purpose : Used for the least important actions
-  * Visual Style : Text-only with no border, using primary color
-  * Usage : For actions that should be available but not emphasized
--->
+### Palette de Couleurs
+
+```css
+:root {
+  /* Couleurs principales */
+  --color-primary: #0066cc; /* Bleu électricité */
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #004c99;
+
+  /* Alertes et statuts */
+  --color-danger: #ef4444; /* Rouge - Urgent */
+  --color-warning: #f59e0b; /* Jaune - En cours */
+  --color-success: #22c55e; /* Vert - Résolu */
+  --color-info: #3b82f6; /* Bleu - Info */
+
+  /* Neutres */
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+}
+```
+
+### Typography
+
+- **Font principale** : Inter ou système sans-serif
+- **Tailles** :
+  - Titres de page : `text-2xl font-bold`
+  - Sous-titres : `text-lg font-semibold`
+  - Corps : `text-sm` ou `text-base`
+  - Labels : `text-xs font-medium uppercase`
+
+### Composants UI
+
+Utiliser exclusivement les composants de `src/app/components/ui/` :
+
+- **Layout** : Card, Tabs, Sheet, Dialog, Collapsible
+- **Formulaires** : Input, Select, Checkbox, Textarea, Label
+- **Feedback** : Toast, Alert, Badge, Progress
+- **Navigation** : Button, Dropdown Menu, Breadcrumb
+- **Data** : Table, Pagination
+
+### Responsive Design
+
+- **Mobile-first** : Basculer vers `md:` et `lg:` pour desktop
+- **Breakpoints** :
+  - `sm` : 640px
+  - `md` : 768px
+  - `lg` : 1024px
+  - `xl` : 1280px
+
+---
+
+## Collaboration
+
+### Branches Git
+
+- **main** : Branche de production (PR obligatoire)
+- **marithza** : Gestion pannes/interventions
+- **christopher** : Notifications temps réel
+- **enriquez** : Clients et factures
+- **narcisse** : Dashboards
+- **structure-initiale** : Config et architecture
+
+### Commits
+
+Format : `[nom] Description concise`
+
+```bash
+# Exemples
+git commit -m "[marithza] Ajout formulaire création panne"
+git commit -m "[christopher] Fix reconnexion WebSocket"
+git commit -m "[enriquez] CRUD clients complet"
+```
+
+### RÈGLE IMPORTANTE - Espace Client
+
+**NE PAS développer dans `src/app/pages/client/` pour l'instant**
+
+Cette fonctionnalité est réservée pour la **Version 2** du projet.
+
+Priorités Version 1 :
+
+1. Dashboard Admin/Agent
+2. Gestion pannes et interventions
+3. Système notifications
+4. Gestion clients (admin uniquement)
+5. Facturation
+
+---
+
+## Bonnes Pratiques React
+
+### Composants Fonctionnels
+
+```tsx
+// Correct - TypeScript avec props typées
+interface PanneCardProps {
+  panne: Panne;
+  onUpdate: (id: string) => void;
+}
+
+export function PanneCard({ panne, onUpdate }: PanneCardProps) {
+  // ...
+}
+```
+
+### Hooks
+
+```tsx
+// Correct - Hook personnalisé
+export function usePannes() {
+  const [pannes, setPannes] = useState<Panne[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchPannes();
+  }, []);
+
+  return { pannes, loading };
+}
+
+// Utilisation dans composant
+export function GestionPannes() {
+  const { pannes, loading } = usePannes();
+  // ...
+}
+```
+
+### Gestion d'État
+
+- **Context** pour état global (auth, notifications)
+- **useState** pour état local
+- **Jamais de prop drilling** profond (> 2 niveaux)
+
+### Performance
+
+- Utiliser `useMemo` pour calculs coûteux
+- Utiliser `useCallback` pour fonctions passées aux enfants
+- Lazy loading des pages avec `React.lazy()`
+- Images optimisées (format WebP, lazy loading)
+
+---
+
+## Testing et Qualité
+
+### Avant de commit
+
+1. **Vérifier TypeScript** : `npm run type-check`
+2. **Linter** : `npm run lint` (si configuré)
+3. **Tests manuels** :
+   - Responsive (mobile + desktop)
+   - Navigation entre pages
+   - Formulaires (validation, erreurs)
+
+### Code Review Checklist
+
+- [ ] Pas d'erreurs TypeScript
+- [ ] Composants réutilisables quand pertinent
+- [ ] Pas de `console.log` en production
+- [ ] Gestion des erreurs (try/catch, états d'erreur)
+- [ ] Accessibilité (alt sur images, labels sur inputs)
+
+---
+
+## Ressources
+
+### Documentation Projet
+
+- [COLLABORATORS.md](../COLLABORATORS.md) - Tâches par collaborateur
+- [NOTIFICATIONS_GUIDE.md](../NOTIFICATIONS_GUIDE.md) - Système notifications
+- [SERVER_SETUP.md](../SERVER_SETUP.md) - Backend WebSocket
+
+### Technologies
+
+- [React Docs](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+---
+
+**Bonne contribution au projet EDH ! 🚀**
