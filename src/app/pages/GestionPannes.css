@@ -1,0 +1,51 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+/* INPUT SEARCH */
+.input {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form input {
+  padding: 8px;
+  flex: 1;
+}
+
+.form button {
+  padding: 8px 15px;
+  background-color: orange;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+}
