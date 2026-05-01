@@ -8,13 +8,15 @@ Application web pour la gestion des pannes, interventions, et maintenance dans l
 
 ## 👥 Équipe de Développement
 
-| Collaborateur   | Branche              | Responsabilité                         |
+| Collaborateur   | Branche              |  Responsabilité                         |
 | --------------- | -------------------- | -------------------------------------- |
 | **Marithza**    | `marithza`           | Gestion des pannes et interventions    |
 | **Christopher** | `christopher`        | Système de notifications en temps réel |
 | **Enriquez**    | `enriquez`           | Gestion des clients et factures        |
 | **Narcisse**    | `narcisse`           | Dashboards administrateur et agent     |
 | **Structure**   | `structure-initiale` | Configuration et architecture de base  |
+
+
 
 ## 🏗️ Architecture du Projet
 
