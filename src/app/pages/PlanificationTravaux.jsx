@@ -2,52 +2,64 @@
 import "./PlanificationTravaux.css";
 
 export default function PlanificationTravaux() {
-  const [titre, setTitre] = useState("");
   const [date, setDate] = useState("");
-  const [listeTravaux, setListeTravaux] = useState([]);
+  const [technicien, setTechnicien] = useState("");
+  const [travaux, setTravaux] = useState([]);
 
   const ajouterTravail = () => {
-    if (!titre || !date) return;
-
-    const nouveau = {
-      id: Date.now(),
-      titre,
-      date
+    const nouveauTravail = {
+      id: travaux.length + 1,
+      date,
+      technicien,
     };
 
-    setListeTravaux([...listeTravaux, nouveau]);
-    setTitre("");
+    setTravaux([...travaux, nouveauTravail]);
+
     setDate("");
+    setTechnicien("");
   };
 
   return (
-    <div className="planification-container">
-      <h2>Planification des Travaux</h2>
+    <div className="container">
+      <h1>Planification des travaux</h1>
 
-      <div className="formulaire">
-        <input
-          type="text"
-          placeholder="Titre du travail"
-          value={titre}
-          onChange={(e) => setTitre(e.target.value)}
-        />
-
+      {/* formulaire */}
+      <div className="form">
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
 
+        <input
+          placeholder="Nom du technicien"
+          value={technicien}
+          onChange={(e) => setTechnicien(e.target.value)}
+        />
+
         <button onClick={ajouterTravail}>Ajouter</button>
       </div>
 
-      <ul className="liste-travaux">
-        {listeTravaux.map((t) => (
-          <li key={t.id}>
-            <strong>{t.titre}</strong> — <span>{t.date}</span>
-          </li>
-        ))}
-      </ul>
+      {/* liste */}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Technicien</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {travaux.map((t) => (
+            <tr key={t.id}>
+              <td>{t.id}</td>
+              <td>{t.date}</td>
+              <td>{t.technicien}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
