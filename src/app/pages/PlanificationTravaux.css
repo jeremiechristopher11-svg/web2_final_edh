@@ -1,0 +1,29 @@
+.planification-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+
+.formulaire {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.formulaire input {
+  padding: 8px;
+  flex: 1;
+}
+
+.formulaire button {
+  padding: 8px 15px;
+  background: royalblue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.liste-travaux li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
