@@ -8,7 +8,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-base: '/',
+  // base DOIT être '/' pour Vercel - ne pas mettre de sous-chemin
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

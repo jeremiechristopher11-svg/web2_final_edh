@@ -1,39 +1,33 @@
 {
   "version": 2,
   "name": "edh-gestion-pannes",
-  "builds": [
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1",
-      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/((?!assets|api).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(?:js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
@@ -56,11 +50,6 @@
       ]
     }
   ],
-    "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  },
   "cleanUrls": true,
   "trailingSlash": false
 }
