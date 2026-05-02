@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: process.env.NODE_ENV === 'production' ? '/edh-gestion-pannes/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

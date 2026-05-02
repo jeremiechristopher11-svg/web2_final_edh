@@ -142,9 +142,41 @@ npm run dev
 # Build pour production
 npm run build
 
+# Preview local du build
+npm run preview
+
+# Analyser le build
+npm run build:analyze
+
 # Déployer sur Vercel
 vercel --prod
 ```
+
+## Variables d'environnement requises sur Vercel
+
+| Variable | Valeur | Description |
+|----------|--------|-------------|
+| `VITE_SUPABASE_URL` | URL de votre projet Supabase | Connexion à la base de données |
+| `VITE_SUPABASE_ANON_KEY` | Clé publique Supabase | Authentification client |
+| `VITE_BASE_PATH` | `/edh-gestion-pannes/` | Chemin de base pour les assets |
+| `NODE_ENV` | `production` | Mode production |
+
+## Configuration Vercel
+
+Le fichier `vercel.json` inclut :
+- ✅ Cache optimisé pour les assets statiques
+- ✅ Headers de sécurité
+- ✅ SPA routing (toutes les routes vers index.html)
+- ✅ Support API routes
+- ✅ URLs propres (cleanUrls)
+- ✅ Build optimisé
+
+## SEO et Performance
+
+- `robots.txt` configuré pour l'indexation
+- `sitemap.xml` pour les moteurs de recherche
+- Headers de cache pour les assets statiques
+- Compression et optimisation automatique Vercel
 
 ---
 

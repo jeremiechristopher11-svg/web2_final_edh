@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview",
+    "build:analyze": "vite build --mode analyze",
+    "lint": "echo 'No linting configured'",
+    "type-check": "echo 'No TypeScript configured'"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
