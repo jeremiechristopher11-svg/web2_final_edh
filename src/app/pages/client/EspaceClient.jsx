@@ -61,12 +61,12 @@ export function EspaceClient() {
           <div className="flex items-center gap-6">
             <img src={edhLogo} alt="EDH" className="w-20 h-20 object-contain" />
             <div>
-              <h1 className="text-3xl" style={{
+              <h1 className="text-4xl" style={{
               color: "#1A1A1A"
             }}>
                 Bienvenue dans votre espace client
               </h1>
-              <p className="text-lg text-gray-600 mt-2">
+              <p className="text-xl text-gray-600 mt-3">
                 Gérez vos factures et signalez les problèmes en toute simplicité
               </p>
             </div>
@@ -90,10 +90,10 @@ export function EspaceClient() {
             <CardContent>
               <form onSubmit={handleSubmitProblem} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="problem" className="text-base">Description du problème *</Label>
-                  <Textarea id="problem" placeholder="Décrivez le problème que vous rencontrez (coupure de courant, tension faible, etc.)" rows={6} className="text-base" value={problemDescription} onChange={e => setProblemDescription(e.target.value)} />
+                  <Label htmlFor="problem" className="text-lg">Description du problème *</Label>
+                  <Textarea id="problem" placeholder="Décrivez le problème que vous rencontrez (coupure de courant, tension faible, etc.)" rows={6} className="text-lg" value={problemDescription} onChange={e => setProblemDescription(e.target.value)} />
                 </div>
-                <Button type="submit" className="w-full text-white text-base py-3" style={{
+                <Button type="submit" className="w-full text-white text-lg py-3" style={{
                 backgroundColor: "#F5A623"
               }}>
                   Envoyer la demande
@@ -108,21 +108,21 @@ export function EspaceClient() {
               <CardTitle>Historique de mes demandes</CardTitle>
             </CardHeader>
             <CardContent>
-              {demandes.length === 0 ? <p className="text-center text-gray-400 py-8 text-base">Aucune demande pour le moment</p> : <div className="space-y-4">
+              {demandes.length === 0 ? <p className="text-center text-gray-400 py-8 text-lg">Aucune demande pour le moment</p> : <div className="space-y-4">
                   {demandes.map(demande => <div key={demande.id} className="p-6 border border-gray-200 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-base text-gray-500">{demande.id}</span>
-                            <span className="text-sm text-gray-400">•</span>
-                            <span className="text-base text-gray-500">{demande.type}</span>
+                            <span className="font-mono text-lg text-gray-500">{demande.id}</span>
+                            <span className="text-base text-gray-400">•</span>
+                            <span className="text-lg text-gray-500">{demande.type}</span>
                           </div>
-                          <p className="text-base mt-2" style={{
+                          <p className="text-lg mt-2" style={{
                       color: "#1A1A1A"
                     }}>
                             {demande.description}
                           </p>
-                          <p className="text-sm text-gray-400 mt-3">
+                          <p className="text-base text-gray-400 mt-3">
                             {new Date(demande.date).toLocaleDateString("fr-FR")}
                           </p>
                         </div>
@@ -142,7 +142,7 @@ export function EspaceClient() {
                 <FileText className="w-6 h-6" style={{
                 color: "#4CAF50"
               }} />
-                <CardTitle className="text-lg">Mes factures</CardTitle>
+                <CardTitle className="text-xl">Mes factures</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -150,17 +150,17 @@ export function EspaceClient() {
                 {mockFactures.map(facture => <div key={facture.id} className="p-5 border border-gray-200 rounded-lg hover:border-[#F5A623] transition-colors">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <p className="text-base font-medium" style={{
+                        <p className="text-lg font-medium" style={{
                       color: "#1A1A1A"
                     }}>
                           {facture.periode}
                         </p>
-                        <p className="text-sm text-gray-500 mt-1">{facture.id}</p>
+                        <p className="text-base text-gray-500 mt-1">{facture.id}</p>
                       </div>
                       <StatusBadge status={facture.status} />
                     </div>
                     <div className="flex items-center justify-between mt-4">
-                      <p className="text-xl font-medium" style={{
+                      <p className="text-2xl font-medium" style={{
                     color: "#4CAF50"
                   }}>
                         {facture.montant.toLocaleString("fr-HT")} HTG
@@ -177,25 +177,25 @@ export function EspaceClient() {
           {/* Quick Info */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Informations utiles</CardTitle>
+              <CardTitle className="text-xl">Informations utiles</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="p-4 bg-blue-50 rounded-lg">
-                <p className="text-base" style={{
+                <p className="text-lg" style={{
                 color: "#5B9BD5"
               }}>
                   📞 Service client: +509 2222-0000
                 </p>
               </div>
               <div className="p-4 bg-green-50 rounded-lg">
-                <p className="text-base" style={{
+                <p className="text-lg" style={{
                 color: "#4CAF50"
               }}>
                   ⚡ Urgences 24/7: +509 2222-1111
                 </p>
               </div>
               <div className="p-4 bg-orange-50 rounded-lg">
-                <p className="text-base" style={{
+                <p className="text-lg" style={{
                 color: "#F5A623"
               }}>
                   📧 Email: contact@edh.ht

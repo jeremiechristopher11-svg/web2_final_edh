@@ -58,10 +58,10 @@ export function Login() {
             <img src={edhLogo} alt="EDH Logo" className="w-48 h-48 object-contain" />
           </div>
           <div>
-            <CardTitle className="text-4xl" style={{
+            <CardTitle className="text-3xl" style={{
             color: "#1A1A1A"
           }}>Plateforme Zéro Papier</CardTitle>
-            <CardDescription className="text-lg mt-3">
+            <CardDescription className="text-base mt-2">
               Système de gestion intégré pour l'Électricité d'Haïti
             </CardDescription>
           </div>
@@ -69,17 +69,17 @@ export function Login() {
         <CardContent className="px-8 py-6">
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-3">
-              <Label htmlFor="email" className="text-lg font-medium">Adresse email</Label>
-              <Input id="email" type="email" placeholder="exemple@edh.ht" value={email} onChange={e => setEmail(e.target.value)} className="h-14 text-lg" />
+              <Label htmlFor="email" className="text-base font-medium">Adresse email</Label>
+              <Input id="email" type="email" placeholder="exemple@edh.ht" value={email} onChange={e => setEmail(e.target.value)} className="h-11 text-base" />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="password" className="text-lg font-medium">Mot de passe</Label>
-              <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="h-14 text-lg" />
+              <Label htmlFor="password" className="text-base font-medium">Mot de passe</Label>
+              <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="h-11 text-base" />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="role" className="text-lg font-medium">Rôle</Label>
+              <Label htmlFor="role" className="text-base font-medium">Rôle</Label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger id="role" className="h-14 text-lg">
+                <SelectTrigger id="role" className="h-11 text-base">
                   <SelectValue placeholder="Sélectionnez votre rôle" />
                 </SelectTrigger>
                 <SelectContent>
@@ -91,7 +91,7 @@ export function Login() {
                 </SelectContent>
               </Select>
             </div>
-            <Button type="submit" className="w-full h-14 text-white text-lg font-medium" style={{
+            <Button type="submit" className="w-full h-11 text-white text-base font-medium" style={{
             backgroundColor: "#F5A623"
           }}>
               Se connecter

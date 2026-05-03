@@ -112,10 +112,10 @@ export function DashboardLayout({
             <div className="flex items-center gap-3">
               <img src={edhLogo} alt="EDH" className="w-12 h-12 object-contain" />
               <div>
-                <h1 className="text-lg" style={{
+                <h1 className="text-2xl" style={{
                 color: "#1A1A1A"
               }}>EDH</h1>
-                <p className="text-sm text-gray-500">Zéro Papier</p>
+                <p className="text-lg text-gray-500">Zéro Papier</p>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export function DashboardLayout({
               backgroundColor: "#F5A623"
             } : {}}>
                   <Icon className="w-5 h-5" />
-                  <span className="text-base">{item.label}</span>
+                  <span className="text-lg">{item.label}</span>
                 </button>;
           })}
           </nav>
@@ -173,10 +173,10 @@ export function DashboardLayout({
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-left hidden md:block">
-                      <p className="text-base" style={{
+                      <p className="text-lg" style={{
                       color: "#1A1A1A"
                     }}>Utilisateur</p>
-                      <p className="text-sm text-gray-500">{roleLabels[role]}</p>
+                      <p className="text-base text-gray-500">{roleLabels[role]}</p>
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
