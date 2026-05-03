@@ -1,7 +1,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* === COULEURS EDH OFFICIELLES === */
+/* === COULEURS EDH OFFICIELLES === */
   --edh-orange: #F5A623;
   --edh-blue-dark: #1A3A5C;
   --edh-blue: #5B9BD5;
