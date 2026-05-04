@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useLocation } from "react-router";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import edhLogo from "../../imports/edh.jpg";
 import { LayoutDashboard, AlertCircle, Wrench, Users, Calendar, FileText, Bell, UserCog, Menu, X, Search, LogOut, Settings } from "lucide-react";
