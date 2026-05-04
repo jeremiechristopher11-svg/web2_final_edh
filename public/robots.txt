@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://edh-gestion-pannes.vercel.app/sitemap.xml
