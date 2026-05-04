@@ -1,308 +1,242 @@
-﻿import { useState } from 'react'
-import DashboardLayout from '../../components/DashboardLayout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
-import { Button } from '../../components/ui/button'
-import { Input } from '../../components/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
-import { Search, Plus, Clock, CheckCircle, AlertCircle } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Users, AlertCircle, FileText, Phone } from "lucide-react";
+import { StatusBadge } from "../../components/StatusBadge";
+const recentTickets = [{
+  id: "T001",
+  client: "Jean Baptiste",
+  type: "Panne",
+  description: "Coupure de courant depuis ce matin",
+  status: "en-cours",
+  time: "Il y a 15 min"
+}, {
+  id: "T002",
+  client: "Marie Dupont",
+  type: "Facture",
+  description: "Question sur la facture de mars",
+  status: "en-attente",
+  time: "Il y a 30 min"
+}, {
+  id: "T003",
+  client: "Restaurant Le Coin",
+  type: "Information",
+  description: "Demande de devis pour nouvelle installation",
+  status: "termine",
+  time: "Il y a 1h"
+}];
+const clientsContacted = [{
+  client: "Sophie Charles",
+  reason: "Suivi facture",
+  time: "10:30"
+}, {
+  client: "Pierre Louis",
+  reason: "Confirmation intervention",
+  time: "11:15"
+}, {
+  client: "Jean Baptiste",
+  reason: "Mise à jour panne",
+  time: "14:00"
+}];
+export function AgentDashboard() {
+  const pendingTickets = recentTickets.filter(t => t.status === "en-attente").length;
+  const activeTickets = recentTickets.filter(t => t.status === "en-cours").length;
+  return <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl" style={{
+        color: "#1A1A1A"
+      }}>Tableau de bord - Agent service client</h1>
+        <p className="text-gray-500 mt-1">Support et assistance aux clients EDH</p>
+      </div>
 
-// Mok Data utilisé pou Dashboard Agent la
-const interventionsDuJour = [
-  {
-    id: 'I001',
-    client: 'Entreprise ABC',
-    adresse: '123 rue de la Paix, Zone 1',
-    type: 'Panne électrique',
-    priorite: 'Haute',
-    heure: '09:00',
-    statut: 'En cours',
-    technicien: 'Jean Dupont',
-  },
-  {
-    id: 'I002',
-    client: 'Société XYZ',
-    adresse: '456 avenue du Commerce, Zone 2',
-    type: 'Maintenance',
-    priorite: 'Moyenne',
-    heure: '11:30',
-    statut: 'Planifiée',
-    technicien: 'Marie Martin',
-  },
-  {
-    id: 'I003',
-    client: 'Client 123',
-    adresse: '789 boulevard des Fleurs, Zone 1',
-    type: 'Dépannage',
-    priorite: 'Basse',
-    heure: '14:00',
-    statut: 'Planifiée',
-    technicien: 'Pierre Leblanc',
-  },
-]
-
-const clientsRecents = [
-  { id: 'C001', nom: 'Entreprise ABC', phone: '01 23 45 67 89', email: 'contact@abc.fr' },
-  { id: 'C002', nom: 'Société XYZ', phone: '01 98 76 54 32', email: 'info@xyz.fr' },
-  { id: 'C003', nom: 'Client 123', phone: '02 11 22 33 44', email: 'hello@client123.fr' },
-]
-
-const techniciensDisponibles = [
-  { id: 'T001', nom: 'Jean Dupont', statut: 'En intervention', zone: 'Zone 1' },
-  { id: 'T002', nom: 'Marie Martin', statut: 'Disponible', zone: 'Zone 2' },
-  { id: 'T003', nom: 'Pierre Leblanc', statut: 'En pause', zone: 'Zone 1' },
-  { id: 'T004', nom: 'Sophie Durand', statut: 'Disponible', zone: 'Zone 3' },
-]
-
-export default function AgentDashboard() {
-  const [searchClient, setSearchClient] = useState('')
-  const [searchTechnicien, setSearchTechnicien] = useState('')
-
-  const filteredClients = clientsRecents.filter((c) =>
-    c.nom.toLowerCase().includes(searchClient.toLowerCase())
-  )
-
-  const filteredTechniciens = techniciensDisponibles.filter((t) =>
-    t.nom.toLowerCase().includes(searchTechnicien.toLowerCase())
-  )
-
-  return (
-    <DashboardLayout userRole="agent">
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard Agent</h1>
-
-        {/* Vu Principal */}
-        <Tabs defaultValue="interventions" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="interventions">📋 Interventions du Jour</TabsTrigger>
-            <TabsTrigger value="clients">👥 Recherche Clients</TabsTrigger>
-            <TabsTrigger value="techniciens">👨‍🔧 Techniciens</TabsTrigger>
-          </TabsList>
-
-          {/* interventions pou Jodoa */}
-          <TabsContent value="interventions">
-            <Card>
-              <CardHeader>
-                <CardTitle>Interventions Programmées du Jour</CardTitle>
-                <CardDescription>
-                  {interventionsDuJour.filter((i) => i.statut === 'En cours').length} en cours,{' '}
-                  {interventionsDuJour.filter((i) => i.statut === 'Planifiée').length} planifiées
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {interventionsDuJour.map((intervention) => (
-                    <div
-                      key={intervention.id}
-                      className="flex items-start gap-4 p-4 border rounded-lg hover:bg-gray-50 transition"
-                    >
-                      {/* Statut Icon */}
-                      <div className="pt-1">
-                        {intervention.statut === 'En cours' ? (
-                          <Clock className="h-5 w-5 text-orange-500" />
-                        ) : (
-                          <AlertCircle className="h-5 w-5 text-blue-500" />
-                        )}
-                      </div>
-
-                      {/* Détails */}
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800">{intervention.client}</h3>
-                        <p className="text-sm text-gray-600 mt-1">{intervention.adresse}</p>
-                        <div className="flex gap-2 mt-2 text-xs">
-                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {intervention.type}
-                          </span>
-                          <span
-                            className={`px-2 py-1 rounded ${
-                              intervention.priorite === 'Haute'
-                                ? 'bg-red-100 text-red-800'
-                                : intervention.priorite === 'Moyenne'
-                                  ? 'bg-yellow-100 text-yellow-800'
-                                  : 'bg-green-100 text-green-800'
-                            }`}
-                          >
-                            {intervention.priorite}
-                          </span>
-                          <span
-                            className={`px-2 py-1 rounded ${
-                              intervention.statut === 'En cours'
-                                ? 'bg-orange-100 text-orange-800'
-                                : 'bg-gray-100 text-gray-800'
-                            }`}
-                          >
-                            {intervention.statut}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Heure & Actions */}
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-gray-800">{intervention.heure}</p>
-                        <p className="text-xs text-gray-500 mt-1">{intervention.technicien}</p>
-                        <div className="flex gap-2 mt-3">
-                          <Button size="sm" variant="outline">
-                            Détails
-                          </Button>
-                          {intervention.statut === 'En cours' && (
-                            <Button size="sm" variant="default">
-                              Compléter
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* kote pou nou chaje CLient tankou Narcisse de Jean Loll*/}
-          <TabsContent value="clients">
-            <div className="space-y-4">
-              {/* Bouton [pou yon Nouvo panne] */}
-              <Card className="bg-gradient-to-r from-blue-50 to-blue-100">
-                <CardContent className="pt-6">
-                  <Button className="w-full" size="lg">
-                    <Plus className="h-5 w-5 mr-2" />
-                    Signaler une Nouvelle Panne
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Recherche */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recherche Rapide Client</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="relative mb-4">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                    <Input
-                      type="text"
-                      placeholder="Nom du client..."
-                      value={searchClient}
-                      onChange={(e) => setSearchClient(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    {filteredClients.length > 0 ? (
-                      filteredClients.map((client) => (
-                        <div
-                          key={client.id}
-                          className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition"
-                        >
-                          <div>
-                            <h4 className="font-semibold text-gray-800">{client.nom}</h4>
-                            <p className="text-xs text-gray-600">{client.email}</p>
-                            <p className="text-xs text-gray-600">{client.phone}</p>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button size="sm" variant="outline">
-                              Appeler
-                            </Button>
-                            <Button size="sm">Voir Historique</Button>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-500 text-center py-4">Aucun client trouvé</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Techniciens Disponibles */}
-          <TabsContent value="techniciens">
-            <Card>
-              <CardHeader>
-                <CardTitle>État des Techniciens</CardTitle>
-                <CardDescription>
-                  {filteredTechniciens.filter((t) => t.statut === 'Disponible').length} disponibles
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <Input
-                    type="text"
-                    placeholder="Rechercher technicien..."
-                    value={searchTechnicien}
-                    onChange={(e) => setSearchTechnicien(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  {filteredTechniciens.map((tech) => (
-                    <div
-                      key={tech.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                          {tech.nom.charAt(0)}
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-800">{tech.nom}</h4>
-                          <p className="text-xs text-gray-600">{tech.zone}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            tech.statut === 'Disponible'
-                              ? 'bg-green-100 text-green-800'
-                              : tech.statut === 'En intervention'
-                                ? 'bg-orange-100 text-orange-800'
-                                : 'bg-gray-100 text-gray-800'
-                          }`}
-                        >
-                          {tech.statut}
-                        </span>
-                        {tech.statut === 'Disponible' && (
-                          <Button size="sm">Assigner</Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        {/* Notifications Agent */}
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Notifications Récentes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex gap-3 p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                <AlertCircle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-orange-900">Intervention urgente</h4>
-                  <p className="text-sm text-orange-800">Zone 1 - Contactez le client au plus tôt</p>
-                </div>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">Demandes en attente</p>
+                <p className="text-3xl mt-2" style={{
+                color: "#F5A623"
+              }}>
+                  {pendingTickets}
+                </p>
               </div>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{
+              backgroundColor: "#F5A62320"
+            }}>
+                <AlertCircle className="w-6 h-6" style={{
+                color: "#F5A623"
+              }} />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-              <div className="flex gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-blue-900">Intervention complétée</h4>
-                  <p className="text-sm text-blue-800">I002 - Facture envoyée au client</p>
-                </div>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">En cours</p>
+                <p className="text-3xl mt-2" style={{
+                color: "#5B9BD5"
+              }}>
+                  {activeTickets}
+                </p>
+              </div>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{
+              backgroundColor: "#5B9BD520"
+            }}>
+                <FileText className="w-6 h-6" style={{
+                color: "#5B9BD5"
+              }} />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">Clients contactés</p>
+                <p className="text-3xl mt-2" style={{
+                color: "#4CAF50"
+              }}>
+                  {clientsContacted.length}
+                </p>
+              </div>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{
+              backgroundColor: "#4CAF5020"
+            }}>
+                <Phone className="w-6 h-6" style={{
+                color: "#4CAF50"
+              }} />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">Total clients</p>
+                <p className="text-3xl mt-2" style={{
+                color: "#1A3A5C"
+              }}>248</p>
+              </div>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{
+              backgroundColor: "#1A3A5C20"
+            }}>
+                <Users className="w-6 h-6" style={{
+                color: "#1A3A5C"
+              }} />
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
-  )
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Tickets */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Demandes récentes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentTickets.map(ticket => <div key={ticket.id} className="p-4 border border-gray-200 rounded-lg hover:border-[#F5A623] transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-mono text-sm" style={{
+                      color: "#F5A623"
+                    }}>
+                          {ticket.id}
+                        </span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs text-gray-500">{ticket.type}</span>
+                      </div>
+                      <p className="text-sm" style={{
+                    color: "#1A1A1A"
+                  }}>{ticket.client}</p>
+                      <p className="text-sm text-gray-500 mt-1">{ticket.description}</p>
+                      <p className="text-xs text-gray-400 mt-2">{ticket.time}</p>
+                    </div>
+                    <StatusBadge status={ticket.status} />
+                  </div>
+                </div>)}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Clients Contacted Today */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Clients contactés aujourd'hui</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {clientsContacted.map((contact, index) => <div key={index} className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5" style={{
+                  color: "#4CAF50"
+                }} />
+                    <div className="flex-1">
+                      <p className="text-sm" style={{
+                    color: "#1A1A1A"
+                  }}>{contact.client}</p>
+                      <p className="text-xs text-gray-500 mt-1">{contact.reason}</p>
+                    </div>
+                    <span className="text-xs text-gray-400">{contact.time}</span>
+                  </div>
+                </div>)}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Actions rapides</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button className="p-4 rounded-lg border border-gray-200 hover:border-[#F5A623] transition-colors text-center">
+              <AlertCircle className="w-8 h-8 mx-auto mb-2" style={{
+              color: "#F5A623"
+            }} />
+              <p className="text-sm" style={{
+              color: "#1A1A1A"
+            }}>Nouvelle demande</p>
+            </button>
+            <button className="p-4 rounded-lg border border-gray-200 hover:border-[#F5A623] transition-colors text-center">
+              <Users className="w-8 h-8 mx-auto mb-2" style={{
+              color: "#1A3A5C"
+            }} />
+              <p className="text-sm" style={{
+              color: "#1A1A1A"
+            }}>Rechercher client</p>
+            </button>
+            <button className="p-4 rounded-lg border border-gray-200 hover:border-[#F5A623] transition-colors text-center">
+              <FileText className="w-8 h-8 mx-auto mb-2" style={{
+              color: "#4CAF50"
+            }} />
+              <p className="text-sm" style={{
+              color: "#1A1A1A"
+            }}>Consulter factures</p>
+            </button>
+            <button className="p-4 rounded-lg border border-gray-200 hover:border-[#F5A623] transition-colors text-center">
+              <Phone className="w-8 h-8 mx-auto mb-2" style={{
+              color: "#5B9BD5"
+            }} />
+              <p className="text-sm" style={{
+              color: "#1A1A1A"
+            }}>Journal d'appels</p>
+            </button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>;
 }
