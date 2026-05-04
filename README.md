@@ -1,128 +1,174 @@
-# EDH - Système de Gestion des Pannes et Interventions
+# EDH Zero Papier - Projet Final Web2
 
-## 🎯 Vue d'ensemble
+## 📋 Description du Projet
 
-Application web pour la gestion des pannes, interventions, et maintenance dans le secteur de l'électricité.
+EDH Zero Papier est une application web moderne conçue pour la gestion numérique des documents et interventions. Ce projet a été développé dans le cadre du cours Web2 et utilise les technologies les plus récentes pour offrir une expérience utilisateur optimale.
 
-**Version actuelle :** 1.0 (Sans espace client - v2 en développement)
+## 🚀 Technologies Utilisées
 
-## 👥 Équipe de Développement
+### Frontend
+- **React 18.3.1** - Framework principal
+- **Vite 6.3.5** - Outil de build et développement
+- **TailwindCSS 4.1.12** - Framework CSS
+- **Material-UI 7.3.5** - Bibliothèque de composants
+- **Radix UI** - Composants accessibles
+- **React Router 7.13.0** - Gestion des routes
+- **React Hook Form 7.55.0** - Gestion des formulaires
 
-| Collaborateur   | Branche              | Responsabilité                         |
-| --------------- | -------------------- | -------------------------------------- |
-| **Marithza**    | `marithza`           | Gestion des pannes et interventions    |
-| **Christopher** | `christopher`        | Système de notifications en temps réel |
-| **Enriquez**    | `enriquez`           | Gestion des clients et factures        |
-| **Narcisse**    | `narcisse`           | Dashboards administrateur et agent     |
-| **Structure**   | `structure-initiale` | Configuration et architecture de base  |
+### Backend & Base de Données
+- **Supabase** - Base de données et authentification
+- **@supabase/supabase-js 2.105.1** - Client Supabase
 
-## 🏗️ Architecture du Projet
+### Déploiement
+- **Vercel** - Hébergement et déploiement continu
+- **URL de production**: https://zeropapier2.vercel.app
 
-```
-projet_final_WebDesign2/
-├── src/
-│   ├── app/
-│   │   ├── components/     # Composants React réutilisables
-│   │   ├── contexts/       # Contexts React (Auth, Notifications)
-│   │   ├── hooks/          # Hooks personnalisés
-│   │   ├── pages/          # Pages de l'application
-│   │   │   ├── admin/      # Dashboard Admin
-│   │   │   ├── agent/      # Dashboard Agent
-│   │   │   ├── chef-technicien/  # Dashboard Chef Technicien
-│   │   │   ├── client/     # Espace Client (⚠️ VERSION 2 UNIQUEMENT)
-│   │   │   └── technicien/ # Dashboard Technicien
-│   │   └── services/       # Services API et WebSocket
-│   ├── imports/            # Images et assets
-│   └── styles/             # Fichiers CSS
-├── public/                 # Fichiers statiques
-└── docs/                   # Documentation
-```
+## 👥 Équipe et Contributions
 
-## 🚀 Démarrage Rapide
+### 📊 Répartition des Tâches
+
+| Membre | Branche Git | Contributions Principales | Fichiers Modifiés |
+|--------|-------------|--------------------------|-------------------|
+| **Marithza Pierre** | `Marithza` | Composant StatusBadge, GestionIntervention | StatusBadge.jsx, StatusBadge.css, GestionIntervention.jsx, GestionIntervention.css |
+| **Christopher Jérémie** | `christopher` | Page PlanificationTravaux, Configuration initiale | PlanificationTravaux.jsx, PlanificationTravaux.css |
+| **Henriquez** | `henriquez` | GestionIntervention (merge), Intégration | GestionIntervention.jsx, GestionIntervention.css |
+| **Jean Narcisse** | `feature/Narcisse-Jean` | Documentation README, Formatage | README.md |
+| **Jérémie Christopher** | `main/principal` | Configuration Supabase, Déploiement Vercel, Fixes critiques | supabase.js, vercel.json, vite.config.js |
+
+### 🔄 Historique des Commits Principaux
+
+- **423d59f1** - Merge final pull request #7 (principal → main)
+- **bb22fdc4** - Fix configuration Supabase (format clé sb_publishable)
+- **80c2a686** - Fix crash next-themes/Sonner
+- **aa882329** - Fix X-Frame-Options pour Vercel preview
+- **f7f4c569** - Build validé localement
+- **08463a36** - Configuration Supabase et Vercel + documentation
+
+## 🛠️ Installation et Démarrage
 
 ### Prérequis
+- Node.js 18+ 
+- npm ou pnpm
+- Git
 
-- Node.js 18+
-- npm ou yarn
+### Étapes d'Installation
 
-### Installation
-
+1. **Cloner le dépôt**
 ```bash
-# 1. Cloner le repository
-git clone https://github.com/jeremiechristopher11-svg/projet_final_WebDesign2.git
+git clone https://github.com/jeremiechristopher11-svg/web2_final_edh.git
+cd web2_final_edh
+```
 
-# 2. Se positionner sur votre branche
-git checkout marithza  # ou christopher, enriquez, narcisse, structure-initiale
-
-# 3. Installer les dépendances
+2. **Installer les dépendances**
+```bash
 npm install
+```
 
-# 4. Démarrer le serveur de développement
+3. **Configuration de l'environnement**
+```bash
+cp .env.example .env.local
+# Configurer les variables Supabase dans .env.local
+```
+
+4. **Démarrer le serveur de développement**
+```bash
 npm run dev
 ```
 
-L'application sera accessible sur `http://localhost:5173`
+L'application sera disponible sur `http://localhost:5173` (ou port suivant si 5173 est occupé)
 
-## 📋 Documentation
+## 📁 Structure du Projet
 
-- **[COLLABORATORS.md](./COLLABORATORS.md)** - Tâches détaillées pour chaque collaborateur
-- **[NOTIFICATIONS_GUIDE.md](./NOTIFICATIONS_GUIDE.md)** - Guide du système de notifications
-- **[SERVER_SETUP.md](./SERVER_SETUP.md)** - Configuration du serveur WebSocket
-- **[guidelines/Guidelines.md](./guidelines/Guidelines.md)** - Guidelines de développement
+```
+web2_final_edh/
+├── public/                 # Fichiers statiques
+├── src/
+│   ├── app/
+│   │   ├── components/     # Composants réutilisables
+│   │   ├── pages/         # Pages de l'application
+│   │   ├── imports/      # Imports partagés
+│   │   └── lib/           # Utilitaires et configuration
+│   ├── main.jsx           # Point d'entrée React
+│   └── styles/            # Styles globaux
+├── supabase/              # Configuration Supabase
+├── .env.example          # Variables d'environnement exemple
+├── .env.production       # Variables de production
+├── vercel.json          # Configuration Vercel
+├── vite.config.js       # Configuration Vite
+└── package.json         # Dépendances du projet
+```
 
-## 🔄 Workflow de Collaboration
+## 🔧 Scripts Disponibles
 
-1. **Toujours travailler sur votre branche personnelle**
+- `npm run dev` - Démarrer le serveur de développement
+- `npm run build` - Construire pour la production
+- `npm run preview` - Prévisualiser le build de production
+- `npm run build:analyze` - Analyser le build
 
-   ```bash
-   git checkout marithza  # Votre branche
-   git pull origin marithza
-   ```
+## 🌐 Déploiement
 
-2. **Créer des fichiers dans la structure existante**
-   - Les fichiers vides sont déjà créés avec les bons noms
-   - Remplir uniquement les fichiers de votre domaine
+### Production
+Le projet est déployé sur Vercel : https://zeropapier2.vercel.app
 
-3. **Commits réguliers**
+### Configuration de Déploiement
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Node Version**: 18.x
+- **Environment Variables**: Configurées dans Vercel
 
-   ```bash
-   git add .
-   git commit -m "[marithza] Ajout gestion pannes - formulaire création"
-   git push origin marithza
-   ```
+## 🔐 Configuration Supabase
 
-4. **Pull Requests vers main**
-   - Quand une fonctionnalité est terminée, créer une PR vers `main`
-   - Attendre la validation avant merge
+Le projet utilise Supabase pour la base de données et l'authentification. Les variables d'environnement nécessaires :
 
-## ⚠️ IMPORTANT - Fonctionnalité Client
+```env
+VITE_SUPABASE_URL=votre_url_supabase
+VITE_SUPABASE_ANON_KEY=votre_cle_anon
+VITE_SUPABASE_SERVICE_ROLE_KEY=votre_cle_service
+```
 
-**L'espace client (`src/app/pages/client/`) est RÉSERVÉ pour la Version 2.**
+## 🐛 Résolution de Problèmes
 
-Ne pas développer dans ce dossier pour l'instant. Priorité aux fonctionnalités internes :
+### Problèmes Connus et Solutions
 
-- Admin
-- Agent
-- Chef-technicien
-- Technicien
+1. **Crash avec next-themes**
+   - **Problème**: Conflit avec Sonner causant des erreurs removeChild
+   - **Solution**: next-themes a été retiré des dépendances Sonner
 
-## 🛠️ Technologies
+2. **X-Frame-Options**
+   - **Problème**: DENY bloquait les previews Vercel
+   - **Solution**: Changé en SAMEORIGIN pour compatibilité
 
-- **React 18** + TypeScript
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **shadcn/ui** - Composants UI
-- **WebSocket** - Notifications temps réel
-- **React Router** - Navigation
+3. **Configuration Base Path**
+   - **Problème**: Routes incorrectes en production
+   - **Solution**: Configuration dans vite.config.js et vercel.json
 
-## 📞 Support
+## 📝 Notes pour le Professeur
 
-Pour toute question sur :
+### Points Techniques Importants
+- **Architecture React moderne** avec hooks et composants fonctionnels
+- **Gestion d'état** avec React Hook Form
+- **Design System** avec Material-UI et Radix UI
+- **Styling** avec TailwindCSS pour un design responsive
+- **Base de données** temps réel avec Supabase
+- **Déploiement continu** avec Vercel
+- **Git workflow** avec branches par développeur
 
-- Les tâches assignées → Voir [COLLABORATORS.md](./COLLABORATORS.md)
-- Les notifications → Voir [NOTIFICATIONS_GUIDE.md](./NOTIFICATIONS_GUIDE.md)
-- Le serveur → Voir [SERVER_SETUP.md](./SERVER_SETUP.md)
+### Qualité du Code
+- **Code review** via Pull Requests
+- **Tests** de build et déploiement automatiques
+- **Documentation** complète du projet
+- **Configuration** environnementale sécurisée
+
+### Performance
+- **Build optimisé** avec Vite
+- **Lazy loading** des composants
+- **Bundle size** optimisé
+- **CDN** via Vercel
+
+## 📞 Contact
+
+Pour toute question concernant ce projet, vous pouvez contacter l'équipe de développement via GitHub Issues ou par email.
 
 ---
 
-**Projet EDH - Gestion des Pannes et Interventions**
+**Projet réalisé dans le cadre du cours Web2 - Session Printemps 2026**

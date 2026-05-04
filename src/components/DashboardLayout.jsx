@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import edhLogo from "../imports/edh.svg";
+import edhLogo from "../imports/edh.jpg";
 import {
   LayoutDashboard,
   AlertCircle,
@@ -19,7 +19,6 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { OfflineBanner } from "./OfflineBanner";
 import {
   DropdownMenu,
   DropdownMenuContent,

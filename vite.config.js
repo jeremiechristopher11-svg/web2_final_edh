@@ -1,22 +1,24 @@
 import { defineConfig } from "vite";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { fileURLToPath } from "url";
 
-export default defineConfig({
-  plugins: [
-    // The React and Tailwind plugins are both required for Make, even if
-    // Tailwind is not being actively used – do not remove them
-    react(),
-    tailwindcss(),
-  ],
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  // File types to support raw imports. Never add .css, .jsx, or .js files to this.
-  assetsInclude: [
-    "**/*.svg",
-    "**/*.csv",
-    "**/*.jpg",
-    "**/*.jpeg",
-    "**/*.png",
-    "**/*.gif",
-  ],
-});
+export default defineConfig(() => ({
+  base: "/",
+  server: {
+    host: "::",
+    port: 8080,
+    hmr: {
+      overlay: false,
+    },
+  },
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
+  },
+}));
