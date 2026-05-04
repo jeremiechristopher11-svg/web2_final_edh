@@ -17,6 +17,7 @@ import {
   Settings } from
 "lucide-react";
 import { Button } from "./ui/button";
+import { OfflineBanner } from "./OfflineBanner";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import {
