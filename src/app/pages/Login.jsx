@@ -50,12 +50,12 @@ export function Login() {
       }} />
       </div>
 
-      <Card className="w-full max-w-md relative z-10 shadow-2xl border-t-4" style={{
+      <Card className="w-full max-w-2xl relative z-10 shadow-2xl border-t-4" style={{
       borderTopColor: "#F5A623"
     }}>
-        <CardHeader className="space-y-4 text-center pb-2">
+        <CardHeader className="space-y-6 text-center pb-4">
           <div className="flex justify-center">
-            <img src={edhLogo} alt="EDH Logo" className="w-40 h-40 object-contain" />
+            <img src={edhLogo} alt="EDH Logo" className="w-48 h-48 object-contain" />
           </div>
           <div>
             <CardTitle className="text-3xl" style={{
@@ -66,20 +66,20 @@ export function Login() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Adresse email</Label>
-              <Input id="email" type="email" placeholder="exemple@edh.ht" value={email} onChange={e => setEmail(e.target.value)} className="h-11" />
+        <CardContent className="px-8 py-6">
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-base font-medium">Adresse email</Label>
+              <Input id="email" type="email" placeholder="exemple@edh.ht" value={email} onChange={e => setEmail(e.target.value)} className="h-11 text-base" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
-              <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="h-11" />
+            <div className="space-y-3">
+              <Label htmlFor="password" className="text-base font-medium">Mot de passe</Label>
+              <Input id="password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} className="h-11 text-base" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="role">Rôle</Label>
+            <div className="space-y-3">
+              <Label htmlFor="role" className="text-base font-medium">Rôle</Label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger id="role" className="h-11">
+                <SelectTrigger id="role" className="h-11 text-base">
                   <SelectValue placeholder="Sélectionnez votre rôle" />
                 </SelectTrigger>
                 <SelectContent>
@@ -91,7 +91,7 @@ export function Login() {
                 </SelectContent>
               </Select>
             </div>
-            <Button type="submit" className="w-full h-11 text-white text-base" style={{
+            <Button type="submit" className="w-full h-11 text-white text-base font-medium" style={{
             backgroundColor: "#F5A623"
           }}>
               Se connecter

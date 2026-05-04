@@ -1,7 +1,40 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
+/* === COULEURS EDH OFFICIELLES === */
+  --edh-orange: #F5A623;
+  --edh-blue-dark: #1A3A5C;
+  --edh-blue: #5B9BD5;
+  --edh-green: #4CAF50;
+  
+  /* === COULEURS STATUTS === */
+  --status-attente: #F5A623;
+  --status-en-cours: #5B9BD5;
+  --status-termine: #4CAF50;
+  --status-urgent: #EF4444;
+  --status-assigne: #9333EA;
+  
+  /* === BACKGROUNDS === */
+  --bg-sidebar: #1A3A5C;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-hover: #F3F4F6;
+  
+  /* === TEXTES === */
+  --text-primary: #1F2937;
+  --text-secondary: #6B7280;
+  --text-white: #FFFFFF;
+  
+  /* === BORDURES === */
+  --border-color: #E5E7EB;
+  --border-radius: 8px;
+  
+  /* === OMBRES === */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  --font-size: 22px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
