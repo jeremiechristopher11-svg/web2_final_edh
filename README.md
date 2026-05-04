@@ -27,13 +27,13 @@ EDH Zero Papier est une application web moderne conçue pour la gestion numériq
 
 ### 📊 Répartition des Tâches
 
-| Membre | Branche Git | Contributions Principales | Fichiers Modifiés |
-|--------|-------------|--------------------------|-------------------|
-| **Marithza Pierre** | `Marithza` | Composant StatusBadge, GestionIntervention | StatusBadge.jsx, StatusBadge.css, GestionIntervention.jsx, GestionIntervention.css |
-| **Christopher Jérémie** | `christopher` | Page PlanificationTravaux, Configuration initiale | PlanificationTravaux.jsx, PlanificationTravaux.css |
-| **Henriquez** | `henriquez` | GestionIntervention (merge), Intégration | GestionIntervention.jsx, GestionIntervention.css |
-| **Jean Narcisse** | `feature/Narcisse-Jean` | Documentation README, Formatage | README.md |
-| **Jérémie Christopher** | `main/principal` | Configuration Supabase, Déploiement Vercel, Fixes critiques | supabase.js, vercel.json, vite.config.js |
+| Collaborateur | Branche Git | Responsabilité |
+|---------------|-------------|----------------|
+| **Marithza** | `marithza` | Gestion des pannes et interventions |
+| **Christophe** | `christopher` | Système de notifications en temps réel |
+| **Enriquez** | `enriquez` | Gestion des clients et factures |
+| **Narcisse** | `narcisse` | Administrateur et agent de tableaux de bord |
+| **Jérémie Christopher** | `structure-initiale` | Configuration et architecture de base |
 
 ### 🔄 Historique des Commits Principaux
 
