@@ -29,6 +29,7 @@ import {
   SelectValue } from
 "../components/ui/select";
 import { toast } from "sonner";
+import { supabase } from "../lib/supabase";
 
 
 
@@ -101,6 +102,15 @@ export function GestionUtilisateurs() {
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
+    password: "",
+    role: ""
+  });
 
   const filteredUsers = users.filter(
     (user) =>
@@ -108,9 +118,66 @@ export function GestionUtilisateurs() {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleCreateUser = () => {
-    toast.success("Nouvel utilisateur créé avec succès");
-    setDialogOpen(false);
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCreateUser = async () => {
+    // Validation
+    if (!formData.nom || !formData.prenom || !formData.email || !formData.password || !formData.role) {
+      toast.error("Veuillez remplir tous les champs obligatoires");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast.error("Le mot de passe doit contenir au moins 6 caractères");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Create user account
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        // Create profile
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: authData.user.id,
+            email: formData.email,
+            nom: formData.nom,
+            prenom: formData.prenom,
+            telephone: formData.telephone,
+            role: formData.role
+          });
+
+        if (profileError) throw profileError;
+
+        toast.success("Nouvel utilisateur créé avec succès!");
+        setDialogOpen(false);
+        setFormData({
+          nom: "",
+          prenom: "",
+          email: "",
+          telephone: "",
+          password: "",
+          role: ""
+        });
+        setSelectedRole("");
+      }
+    } catch (error) {
+      console.error('Erreur lors de la création:', error);
+      toast.error(error.message || "Erreur lors de la création du compte");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -139,17 +206,51 @@ export function GestionUtilisateurs() {
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="nom">Nom complet *</Label>
-                <Input id="nom" placeholder="Nom et prénom" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="prenom">Prénom *</Label>
+                  <Input
+                    id="prenom"
+                    value={formData.prenom}
+                    onChange={(e) => handleInputChange('prenom', e.target.value)}
+                    placeholder="Prénom"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="nom">Nom *</Label>
+                  <Input
+                    id="nom"
+                    value={formData.nom}
+                    onChange={(e) => handleInputChange('nom', e.target.value)}
+                    placeholder="Nom"
+                    required
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email *</Label>
-                <Input id="email" type="email" placeholder="email@edh.ht" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  placeholder="email@edh.ht"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="telephone">Téléphone</Label>
+                <Input
+                  id="telephone"
+                  value={formData.telephone}
+                  onChange={(e) => handleInputChange('telephone', e.target.value)}
+                  placeholder="+509 XX XX XX XX"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="role">Rôle *</Label>
-                <Select value={selectedRole} onValueChange={setSelectedRole}>
+                <Select value={formData.role} onValueChange={(value) => handleInputChange('role', value)}>
                   <SelectTrigger id="role">
                     <SelectValue placeholder="Sélectionner un rôle" />
                   </SelectTrigger>
@@ -163,14 +264,22 @@ export function GestionUtilisateurs() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Mot de passe temporaire *</Label>
-                <Input id="password" type="password" placeholder="••••••••" />
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  placeholder="Minimum 6 caractères"
+                  required
+                />
               </div>
               <Button
                 onClick={handleCreateUser}
                 className="w-full text-white"
-                style={{ backgroundColor: "#F5A623" }}>
-                
-                Créer le compte
+                style={{ backgroundColor: "#F5A623" }}
+                disabled={loading}
+              >
+                {loading ? "Création en cours..." : "Créer le compte"}
               </Button>
             </div>
           </DialogContent>

@@ -1,40 +1,73 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import edhLogo from "../imports/edh.jpg";
 import { toast } from "sonner";
-import { Zap } from "lucide-react";
+import { Zap, UserPlus } from "lucide-react";
+import { SignUp } from "../components/SignUp";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password || !role) {
-      toast.error("Veuillez remplir tous les champs");
+    if (!email || !password) {
+      toast.error("Veuillez saisir votre email et mot de passe");
       return;
     }
 
-    // Mock login - redirect based on role
-    const roleRoutes = {
-      admin: "/admin",
-      technicien: "/technicien",
-      "chef-technicien": "/chef-technicien",
-      agent: "/agent",
-      client: "/client"
-    };
+    setLoading(true);
 
-    toast.success(`Connexion réussie en tant que ${role}`);
-    navigate(roleRoutes[role]);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        // Get user profile to determine role
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+
+        if (profileError) throw profileError;
+
+        // Redirect based on role
+        const roleRoutes = {
+          admin: "/admin",
+          technicien: "/technicien",
+          "chef-technicien": "/chef-technicien",
+          agent: "/agent",
+          client: "/client"
+        };
+
+        toast.success(`Connexion réussie!`);
+        navigate(roleRoutes[profile.role] || "/");
+      }
+    } catch (error) {
+      console.error('Erreur de connexion:', error);
+      toast.error(error.message || "Erreur lors de la connexion");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (showSignUp) {
+    return <SignUp onBackToLogin={() => setShowSignUp(false)} />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #F4F6F9 0%, #E8EDF3 100%)" }}>
@@ -68,8 +101,9 @@ export function Login() {
                 placeholder="exemple@edh.ht"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-11" />
-              
+                className="h-11"
+                required
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Mot de passe</Label>
@@ -79,34 +113,33 @@ export function Login() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-11" />
-              
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="role">Rôle</Label>
-              <Select value={role} onValueChange={setRole}>
-                <SelectTrigger id="role" className="h-11">
-                  <SelectValue placeholder="Sélectionnez votre rôle" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="admin">Administrateur</SelectItem>
-                  <SelectItem value="technicien">Technicien de terrain</SelectItem>
-                  <SelectItem value="chef-technicien">Chef des techniciens</SelectItem>
-                  <SelectItem value="agent">Agent service client</SelectItem>
-                  <SelectItem value="client">Client</SelectItem>
-                </SelectContent>
-              </Select>
+                className="h-11"
+                required
+              />
             </div>
             <Button
               type="submit"
               className="w-full h-11 text-white text-base"
-              style={{ backgroundColor: "#F5A623" }}>
-              
-              Se connecter
+              style={{ backgroundColor: "#F5A623" }}
+              disabled={loading}
+            >
+              {loading ? "Connexion en cours..." : "Se connecter"}
             </Button>
           </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600 mb-2">Nouveau membre de l'équipe ?</p>
+            <Button
+              variant="outline"
+              onClick={() => setShowSignUp(true)}
+              className="w-full"
+            >
+              <UserPlus className="w-4 h-4 mr-2" />
+              Créer un compte
+            </Button>
+          </div>
         </CardContent>
       </Card>
-    </div>);
-
+    </div>
+  );
 }
